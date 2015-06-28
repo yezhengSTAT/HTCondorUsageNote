@@ -23,4 +23,16 @@ Rank: UNDEFINED, ERROR, or a floating point value. Ordered by the floating posit
 condor_status -constraint kflops
 condor_status -constraint "kflops=?=undefined"
 
-Shared File System
+Transfer files:
+1. Without a Shared File System:
+1.1 should_transfer_files = IF_NEEDED
+
+1.1.1 YES: HTCondor transfers both the executable and the file defined by the input command from the machine where the job is submitted to the remote machine where the job is to be executed. The file defined by the output command as well as any files created by the execution of the job are transferred back to the machine where the job was submitted. When they are transferred and the directory location of the files is determined by the command when_to_transfer_output.
+
+1.1.2 IF_NEEDED: HTCondor transfers files if the job is matched with and to be executed on a machine in a different FileSystemDomain than the one the submit machine belongs to, the same as if should_transfer_files = YES. If the job is matched with a machine in the local FileSystemDomain, HTCondor will not transfer files and relies on the shared file system.
+
+1.1.3 NO: HTCondor's file transfer mechanism is disabled.
+
+1.2 when_to_transfer_output = ON_EXIT
+
+2. Shared File System:
