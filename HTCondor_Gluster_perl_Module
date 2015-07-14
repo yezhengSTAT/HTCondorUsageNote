@@ -16,3 +16,4 @@ Tips:
 condor_submit -i (i means interaction) file.submit      can go to the excutable node.
 instmodsh    can list the perl module on that server.
 
+If we cannot run "export PERL5LIB=~/lib:$PERL5LIB" directly on the server terminal, we can add the perl module lib using R command: Sys.setenv(PERL5LIB="/mnt/gluster/yzheng74/Softwares/perl/Module/lib/") before the R command.
