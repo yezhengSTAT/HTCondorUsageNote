@@ -1,6 +1,0 @@
-Background: 
-	Running ChIP-seq alignment. It involves using Bowtie, CSEM.
-Problem:
-	Large input, output, and intermediate results. (Large means approximately larger than 4 GB). Besides, the softwares that we use are not widely used by ordinary HTCondor users therefore they are not installed on the servers.
-Solution:
-	Email HTCondor group to get a Gluster account. Put all the input data and install the softwares on Gluster. Organize them nicely! Never transfer these large files in the submit scripts! However, in the excutable script, we can read in the data and save the output and intermediate files directly on Gluster.
