@@ -1,0 +1,35 @@
+- install bwa in Gluster if it's not already there (like bowtie, samtools, etc.)
+- divide one of your datasets into pieces, maybe about 100 pieces?
+- transfer some (or all) of the pieces to your Gluster directory
+- create a bash script in your home directory (not Gluster) that runs your bwa command from gluster, references one piece of your dataset from gluster, and
+- writes the output to gluster. This might look something like this:
+> #!/bin/bash
+> /mnt/gluster/yzheng74/.../bwa mem /mnt/gluster/.../ref.fa
+> /mnt/gluster/.../read1.fq > /mnt/gluster/.../aln-pe.sam
+- create a submit file in your home directory (see our "hello world" tutorial for an example: chtc.cs.wisc.edu/helloworld.shtml) that will submit your bwa
+job. Your executable should be the shell script you created above.
+
+Make sure to
+1. request enough memory, and add the following line:
+2. requirements = (Target.HasGluster == true)
+3. Also change the queue statement to "queue 1"
+
+
+- running multiple jobs at once:
+in your submit file, you can pass the unique file numbers using the "$(Process)" variable.
+It might look something like this in the submit file:
+executable = myscript.sh
+arguments = $(Process)
+queue 100
+
+And then each job will get a different number (0 - 99) as the argument for the
+script. In order to get numbers with 2 digits (00, 01, ... 99), you can use
+$INT(Process, %02d) instead of just $(Process)
+
+- creating a DAG: a DAG is just a file with lines listing your jobs + the order
+they'll be run in, like:
+JOB one submit_file
+JOB two submit_file
+PARENT one CHILD two
+There are more details in the Condor documentation here:
+http://research.cs.wisc.edu/htcondor/manual/current/2_10DAGMan_Applications.html
