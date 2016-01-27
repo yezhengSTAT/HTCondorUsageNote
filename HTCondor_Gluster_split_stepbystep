@@ -26,6 +26,13 @@ And then each job will get a different number (0 - 99) as the argument for the
 script. In order to get numbers with 2 digits (00, 01, ... 99), you can use
 $INT(Process, %02d) instead of just $(Process)
 
+- To be more organized:
+Since each job will return a set of err, log, out files, create a separate dir err/ log/ out/ to store all of them.
+In the script, it may look like this:
+log = log/bwa_align_$(Cluster).log
+error = err/bwa_align_$(Cluster)_$(Process).err
+output = out/bwa_align_$(Cluster)_$(Process).out
+
 - creating a DAG: a DAG is just a file with lines listing your jobs + the order
 they'll be run in, like:
 JOB one submit_file
@@ -33,3 +40,6 @@ JOB two submit_file
 PARENT one CHILD two
 There are more details in the Condor documentation here:
 http://research.cs.wisc.edu/htcondor/manual/current/2_10DAGMan_Applications.html
+More example:
+PARENT 1 2 3 CHILD 4 #1 2 3 will run in parallel and 4 will not be run until 1 2 3 all finish.
+SCRIPT POST one movefileto.sh #will do small adjust steps after one JOB.
