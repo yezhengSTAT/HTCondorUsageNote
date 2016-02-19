@@ -13,3 +13,10 @@ Remember to download all the R package tar.gz files in the same directory.
 	It will create the Routputdir folder. cd into it and run   condor_submit_dag mydag.dag
 	
 
+Install R on chtc condor, the installation files logic:
+-R
+-bin                           -lib64                      -share
+-R, Rscript(set R path here)   -R ($R_HOME is here)
+(They are script and can point to the excutable R binary)			       
+			       -bin         -lib  -include --library(where the packages are installed)
+			       -R, Rscript, exec/Rbinary(the excutable R)
