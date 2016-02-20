@@ -1,0 +1,35 @@
+Install Python2.7 or newer version
+
+./configure --prefix=locationToInstall
+make
+make install
+
+For example, install on /mnt/gluster/.../Software/python
+cd /mnt/gluster/.../Software/python/bin
+add Python2.7 path to PATH:
+PATH=$(pwd):PATH
+:PATH prevents us from overwriting the old pathes
+
+Install python library:
+wget "http:.......getpip.py" (search online and get the link)
+python getpip.py
+pip install libraryName
+
+To install python library ryp2, it require R_HOME:
+Install R to local directory, say /mnt/gluster/...../Softwares/R
+
+In the R installation directory:
+make distclean
+./configure --enable-R-shlib --prefix=/mnt/gluster/.../Softwares/R 
+make
+make install
+cd R/bin
+add R/bin to the PATH and R_HOME
+
+Then we continue to install rpy2:
+pip install rpy2
+or
+Download rpy2 zip file, unzip and go to that directory.
+python setup.py install
+
+Last step is to check the installation of the library.
