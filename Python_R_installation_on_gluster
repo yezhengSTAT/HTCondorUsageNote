@@ -33,3 +33,8 @@ Download rpy2 zip file, unzip and go to that directory.
 python setup.py install
 
 Last step is to check the installation of the library.
+To pass the test:
+python; import rpy2.tests
+Need to add the 
+
+It is really PAINFUL to install rpy2.robjects as it requires
