@@ -35,6 +35,10 @@ python setup.py install
 Last step is to check the installation of the library.
 To pass the test:
 python; import rpy2.tests
-Need to add the 
+Need to add the
+export PATH=/mnt/gluster/.../Softwares/python/bin:$PATH
+export PATH=/mnt/gluster/.../Softwares/R/bin:$PATH
+export LD_LIBRARY_PATH=/mnt/gluster/.../Softwares/R/lib64/R/lib:$LD_LIBRARY_PATH
 
-It is really PAINFUL to install rpy2.robjects as it requires
+It is really PAINFUL to install rpy2.robjects as it requires sqlite3. Due to no root access, 
+it is almost impossible to install sqlite-dev which is the most common solution online. See the link............. 
