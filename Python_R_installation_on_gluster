@@ -41,4 +41,6 @@ export PATH=/mnt/gluster/.../Softwares/R/bin:$PATH
 export LD_LIBRARY_PATH=/mnt/gluster/.../Softwares/R/lib64/R/lib:$LD_LIBRARY_PATH
 
 It is really PAINFUL to install rpy2.robjects as it requires sqlite3. Due to no root access, 
-it is almost impossible to install sqlite-dev which is the most common solution online. See the link............. 
+it is almost impossible to install sqlite-dev which is the most common solution online. See the link.............
+It is writen in Chinese, sorrrrry, I did not find any solution that works using English search.
+http://it.zhaozhao.info/archives/61049
