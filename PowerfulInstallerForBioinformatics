@@ -1,6 +1,13 @@
 Much more powerful installer for bioinformatics tools (much more powerful than pip!)
 Miniconda-conda-Setup Bioconda
 after setting up chanel, install the software or package:
-conda install bwa
 
+conda install bwa
+conda create -n myenviroment bwa=0.7.12
+
+for example to install pysam which is impossible for pip but for bioconda it is soooo easy:
+conda install -c bioconda pysam (https://github.com/pysam-developers/pysam/issues/262)
+
+reference links:
 http://conda.pydata.org/miniconda.html
+http://bioconda.github.io/
