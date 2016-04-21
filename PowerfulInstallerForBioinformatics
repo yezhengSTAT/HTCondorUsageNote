@@ -1,0 +1,6 @@
+Much more powerful installer for bioinformatics tools (much more powerful than pip!)
+Miniconda-conda-Setup Bioconda
+after setting up chanel, install the software or package:
+conda install bwa
+
+http://conda.pydata.org/miniconda.html
