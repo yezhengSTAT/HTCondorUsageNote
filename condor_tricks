@@ -141,4 +141,4 @@ Integer Code 	Reason for Hold 	HoldReasonSubCode
 
 7. periodic_release > on_exit_hold > on_exit_remove
 
-
+Between hold and auto release, there will be 5 min.
