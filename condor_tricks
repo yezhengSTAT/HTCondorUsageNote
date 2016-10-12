@@ -83,7 +83,10 @@ $ condor_q -constraint "DAGManJobId == 234567"
 to see all the jobs submitted from this dag.
 To use a name (for example, a batch name) as a constraint, you'll need to use multiple sets of quotation marks:
 $ condor_q -constraint 'JobBatchName == "MyJobs"'
-Can combine with regular expression.
+
+Can combine with regular expression!!!!!
+For example, update all the jobs memory and those jobs align DNase data:
+condor_qedit yzheng74 -constraint 'JobStatus == 1 && regexp("bwa.*dnase", DAGNodeName)' RequestMemory 6144
 
 One common use of constraints is to find all jobs that are running, held, or idle. To do this, use a constraint with the
 JobStatus attribute and the appropriate status number - the status codes can be found in Appendix A of the HTCondor 
