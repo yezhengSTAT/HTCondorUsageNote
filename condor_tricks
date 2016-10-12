@@ -1,0 +1,144 @@
+0. Full condor manual and guideline:
+http://research.cs.wisc.edu/htcondor/manual/
+http://chtc.cs.wisc.edu/guides.shtml
+
+1. condor_release will restart jobs on hold, due to user defined or condor defined hold, such as exceed memory or fail to 
+receive files. These jobs will start queueing (idle).
+
+2. All the attribute can be seen by 
+condor_q -l jobid
+
+View all details about a job.
+Each job you submit has a series of attributes that are tracked by HTCondor. You can see the full set of attributes 
+for a single job by using the "long" option for condor_q like so:
+
+$ condor_q -l JobId 
+...
+Iwd = "/home/alice/analysis/39909"
+JobPrio = 0
+RequestCpus = 1
+JobStatus = 1
+ClusterId = 19997268
+JobUniverse = 5
+RequestDisk = 10485760
+RequestMemory = 4096
+DAGManJobId = 19448402
+...
+
+Attributes that are often useful for checking on jobs are:
+
+    Iwd: the job's submission directory on the submit node
+    ProcessLog: the log file for a job
+    RequestMemory, RequestDisk: how much memory and disk you've requested per job
+    MemoryUsage: how much memory the job has used so far
+    JobStatus: numerical code indicating whether a job is idle, running, or held
+    HoldReason: why a job is on hold
+    DAGManJobId: for jobs managed by a DAG, this is the JobId of the parent DAG
+
+
+3. add a user defined attribute by
++JobType=$(type) in the submit file where JobType and $(type) are user defined, so that user can use the self defined 
+attribute to filter or select jobs.
+for example, dataType=$(dnase, chip, ctl)
+
+4. View specific details about a job using auto-format  -af --select screen output columns
+If you would like to see specific attributes (see above) for a job or group of jobs, you can use the "auto-format" (-af) 
+option to condor_q which will print out only the attributes you name for a single job or group of jobs.
+For example, if I would like to see the amount of memory and disk I've requested for all of my jobs, and how much memory is currently behing used, I can run:
+
+$ condor_q -af RequestMemory RequestDisk MemoryUsage
+1 325 undefined
+1 325 undefined
+2000 1000 245
+2000 1000 220
+2000 1000 245
+
+5. condor_qedit userAccount -contraint 'HoldReasonCode == 34'(select jobs) RequestMemory(attribute) 6000(new value)
+
+condor_qedit modifies job ClassAd attributes of queued HTCondor jobs. The jobs are specified either by cluster number, 
+job ID, owner, or by a ClassAd constraint expression. The attribute-value may be any ClassAd expression. String 
+expressions must be surrounded by double quotes. Multiple attribute value pairs may be listed on the same command line.
+To ensure security and correctness, condor_qedit will not allow modification of the following ClassAd attributes:
+    Owner
+    ClusterId
+    ProcId
+    MyType
+    TargetType
+    JobStatus
+Since JobStatus may not be changed with condor_qedit, use condor_hold to place a job in the hold state, and use 
+condor_release to release a held job, instead of attempting to modify JobStatus directly.
+If a job is currently running, modified attributes for that job will not affect the job until it restarts. As an 
+example, for PeriodicRemove to affect when a currently running job will be removed from the queue, that job must first 
+be evicted from a machine and returned to the queue. The same is true for other periodic expressions, such as 
+PeriodicHold and PeriodicRelease.
+condor_qedit validates both attribute names and attribute values, checking for correct ClassAd syntax. An error message 
+is printed, and no attribute is set or changed if the name or value is invalid.
+
+
+
+6. Constraining the output of condor_q. -contraint
+If you would like to find jobs that meet certain conditions, you can use condor_q's "constraint" option. For example, 
+suppose you want to find all of the jobs associated with the DAGMan Job ID "234567". You can search using:
+$ condor_q -constraint "DAGManJobId == 234567" 
+to see all the jobs submitted from this dag.
+To use a name (for example, a batch name) as a constraint, you'll need to use multiple sets of quotation marks:
+$ condor_q -constraint 'JobBatchName == "MyJobs"'
+Can combine with regular expression.
+
+One common use of constraints is to find all jobs that are running, held, or idle. To do this, use a constraint with the
+JobStatus attribute and the appropriate status number - the status codes can be found in Appendix A of the HTCondor 
+Manual.
+Remember condor_q -hold from before? In the background, the -hold option is constraining the list of jobs to jobs that 
+are on hold (using the JobStatus attribute) and then printing out the HoldReason attribute. Try running:
+$ condor_q -constraint "JobStatus == 5" -af ClusterId ProcId HoldReason
+
+Useful information about codes for "JobStatus" & "HoldReasonCode" can be found:
+http://research.cs.wisc.edu/htcondor/manual/current/12_Appendix_A.html
+
+Value 	Status
+1 	Idle
+2 	Running
+3 	Removed
+4 	Completed
+5 	Held
+6 	Transferring Output
+7 	Suspended
+
+
+Integer Code 	Reason for Hold 	HoldReasonSubCode
+1 	The user put the job on hold with condor_hold. 	 
+2 	Globus middleware reported an error. 	The GRAM error number.
+3 	The PERIODIC_HOLD expression evaluated to True. 	 
+4 	The credentials for the job are invalid. 	 
+5 	A job policy expression evaluated to Undefined. 	 
+6 	The condor_starter failed to start the executable. 	The Unix errno number.
+7 	The standard output file for the job could not be opened. 	The Unix errno number.
+8 	The standard input file for the job could not be opened. 	The Unix errno number.
+9 	The standard output stream for the job could not be opened. 	The Unix errno number.
+10 	The standard input stream for the job could not be opened. 	The Unix errno number.
+11 	An internal HTCondor protocol error was encountered when transferring files. 	 
+12 	The condor_starter or condor_shadow failed to receive or write job files. 	The Unix errno number.
+13 	The condor_starter or condor_shadow failed to read or send job files. 	The Unix errno number.
+14 	The initial working directory of the job cannot be accessed. 	The Unix errno number.
+15 	The user requested the job be submitted on hold. 	 
+16 	Input files are being spooled. 	 
+17 	A standard universe job is not compatible with the condor_shadow version available on the submitting machine. 	 
+18 	An internal HTCondor protocol error was encountered when transferring files. 	 
+19 	<Keyword>_HOOK_PREPARE_JOB was defined but could not be executed or returned failure. 	 
+20 	The job missed its deferred execution time and therefore failed to run. 	 
+21 	The job was put on hold because WANT_HOLD in the machine policy was true. 	 
+22 	Unable to initialize job event log. 	 
+23 	Failed to access user account. 	 
+24 	No compatible shadow. 	 
+25 	Invalid cron settings. 	 
+26 	SYSTEM_PERIODIC_HOLD evaluated to true. 	 
+27 	The system periodic job policy evaluated to undefined. 	 
+28 	Failed while using glexec to set up the job's working directory (chown sandbox to the user). 	 
+30 	Failed while using glexec to prepare output for transfer (chown sandbox to condor). 	 
+32 	The maximum total input file transfer size was exceeded. (See MAX_TRANSFER_INPUT_MB.) 	 
+33 	The maximum total output file transfer size was exceeded. (See MAX_TRANSFER_OUTPUT_MB.) 	 
+34 	Memory usage exceeds a memory limit. 	 
+
+7. periodic_release > on_exit_hold > on_exit_remove
+
+
