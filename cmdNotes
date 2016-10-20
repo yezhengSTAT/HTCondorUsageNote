@@ -40,3 +40,7 @@ Transfer files:
 
 Using R:
 1. chtc_buildRlibs --rversion=sl6-R-2.10.1 --rlibs=lme4_0.999375-39.tar.gz,pedigreemm_0.2-4.tar.gz
+
+
+To make file world-wide readable:
+chmod a+rw path/folders that your want to make readable.
