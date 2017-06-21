@@ -41,6 +41,32 @@ export PATH=/mnt/gluster/.../Softwares/R/bin:$PATH
 export LD_LIBRARY_PATH=/mnt/gluster/.../Softwares/R/lib64/R/lib:$LD_LIBRARY_PATH
 
 It is really PAINFUL to install rpy2.robjects as it requires sqlite3. Due to no root access, 
-it is almost impossible to install sqlite-dev which is the most common solution online. See the link.............
-It is writen in Chinese, sorrrrry, I did not find any solution that works using English search.
-http://it.zhaozhao.info/archives/61049
+it is almost impossible to install sqlite-dev which is the most common solution online. 
+Let's take python 3.6 for example:
+
+1. get sqlite3 from https://www.sqlite.org/download.html
+2. tar -zxvf sqlite-3.*.*.tar.gz
+3. mkdir somewhere/sqlite3
+4. cd sqlite-3.*.*
+5. ./configure --prefix=somewhere/sqlite3
+6. make & make install
+7. in setup.py of Python-3.6.*
+sqlite_inc_paths = [ '/usr/include',
+                             '/somewhere/sqlite3/include', #added
+                             '/usr/include/sqlite',
+                             '/usr/include/sqlite3',
+                             '/usr/local/include',
+                             '/usr/local/include/sqlite',
+
+8. in Python-3.*.*:
+./configure --prefix=somewhere/python
+make 
+make install
+9. export PATH=somewhere/python:$PATH
+in somewhere/python/bin
+pip3 install rpy2
+pip3 install readline
+10. test:
+in python/bin/python
+import readline
+import import rpy2.robjects as ro
