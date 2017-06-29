@@ -70,3 +70,8 @@ pip3 install readline
 in python/bin/python
 import readline
 import import rpy2.robjects as ro
+
+
+Having issue with R installation on linux?
+http://pj.freefaculty.org/blog/?p=315
+
