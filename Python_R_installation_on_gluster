@@ -57,6 +57,26 @@ sqlite_inc_paths = [ '/usr/include',
                              '/usr/include/sqlite3',
                              '/usr/local/include',
                              '/usr/local/include/sqlite',
+                             
+If having issues with Tkinter such as No Module named '_tkinter'
+7.1 download tcl and tk from http://www.tcl.tk/software/tcltk/download.html
+7.2 cd ~/Downloads/tcl8.5.11/unix
+./configure --prefix=/home/sam/install_sam/python3
+make
+make install
+
+7.3 cd ~/Downloads/tk8.5.11/unix
+./configure --prefix=/home/sam/install_sam/python3
+            --with-tcl=/home/sam/Downloads/tcl8.5.11/unix
+make
+make install
+
+7.4 export LD_LIBRARY_PATH=/home/sam/install_sam/python3/lib
+
+7.5 cd ~/Downloads/Python3.2.3/3
+./configure --prefix=/home/sam/install_sam/python3 
+make
+make install
 
 8. in Python-3.*.*:
 ./configure --prefix=somewhere/python
