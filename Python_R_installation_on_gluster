@@ -48,11 +48,11 @@ Let's take python 3.6 for example:
 2. tar -zxvf sqlite-3.*.*.tar.gz
 3. mkdir somewhere/sqlite3
 4. cd sqlite-3.*.*
-5. ./configure --prefix=somewhere/sqlite3
+5. ./configure --prefix=somewhere/python3
 6. make & make install
 7. in setup.py of Python-3.6.*
 sqlite_inc_paths = [ '/usr/include',
-                             '/somewhere/sqlite3/include', #added
+                             '/somewhere/python3/include', #added
                              '/usr/include/sqlite',
                              '/usr/include/sqlite3',
                              '/usr/local/include',
@@ -61,20 +61,20 @@ sqlite_inc_paths = [ '/usr/include',
 If having issues with Tkinter such as No Module named '_tkinter'
 7.1 download tcl and tk from http://www.tcl.tk/software/tcltk/download.html
 7.2 cd ~/Downloads/tcl8.5.11/unix
-./configure --prefix=/home/sam/install_sam/python3
+./configure --prefix=somewhere/python3
 make
 make install
 
 7.3 cd ~/Downloads/tk8.5.11/unix
-./configure --prefix=/home/sam/install_sam/python3
+./configure --prefix=somewhere/python3
             --with-tcl=/home/sam/Downloads/tcl8.5.11/unix
 make
 make install
 
-7.4 export LD_LIBRARY_PATH=/home/sam/install_sam/python3/lib
+7.4 export LD_LIBRARY_PATH=somewhere/python3/lib
 
 7.5 cd ~/Downloads/Python3.2.3/3
-./configure --prefix=/home/sam/install_sam/python3 
+./configure --prefix=somewhere/python3 
 make
 make install
 
