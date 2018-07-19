@@ -1,3 +1,6 @@
+Install gcc locally:http://luiarthur.github.io/gccinstall
+
+
 Install Python2.7 or newer version
 
 ./configure --prefix=locationToInstall
