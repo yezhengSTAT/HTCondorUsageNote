@@ -145,3 +145,10 @@ Integer Code 	Reason for Hold 	HoldReasonSubCode
 7. periodic_release > on_exit_hold > on_exit_remove
 
 Between hold and auto release, there will be 5 min.
+
+8. To see how much disk space is available on servers in CHTC you can use
+condor_status.
+- This will print out all the servers + how much disk they use (in KB units):
+condor_status -compact -af Machine TotalDisk
+- To see servers with more than 100GB of disk, try:
+condor_status -compact -constraint 'TotalDisk >= 100000000'
