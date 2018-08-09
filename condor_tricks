@@ -152,3 +152,24 @@ condor_status.
 condor_status -compact -af Machine TotalDisk
 - To see servers with more than 100GB of disk, try:
 condor_status -compact -constraint 'TotalDisk >= 100000000'
+
+9. I figured this out by comparing your job (30618) to the machines you wanted to
+run on (matlab-build-1.chtc.wisc.edu) with a machine-centric view (-reverse)
+like so:
+
+condor_q -better 30618 -reverse -mconst matlab-build-1.chtc.wisc.edu
+...
+The Requirements expression for this slot reduces to these conditions:
+
+Clusters
+Step Matched Condition
+----- -------- ---------
+[5] 0 TARGET.IsMatlabBuildJob is true
+[6] 0 TARGET.IsBuildJob
+[7] 0 [5] || [6]
+
+slot1@matlab-build-1.chtc.wisc.edu: Run analysis summary of 1 jobs.
+0 (0.00 %) match both slot and job requirements.
+0 match the requirements of this slot.
+1 have job requirements that match this slot.
+
