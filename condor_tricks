@@ -173,3 +173,4 @@ slot1@matlab-build-1.chtc.wisc.edu: Run analysis summary of 1 jobs.
 0 match the requirements of this slot.
 1 have job requirements that match this slot.
 
+10. on squid, old version packages can be cached. Therefore, each time, create a new folder specifying the version and copy the packages there.
